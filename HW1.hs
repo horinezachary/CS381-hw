@@ -78,13 +78,12 @@ rightmost (Node x y z) = rightmost z
 --   >>> maxInt t2
 --   9
 --
---maxInt :: Tree -> Int
---maxInt (Leaf a) = a
---maxInt (Node x y z) | (maxInt y) > (maxInt z) = 
+maxInt :: Tree -> Int
+maxInt (Leaf a) = a
+maxInt (Node x y z) = leTh x (grTh (maxInt y) (maxInt z))
 
---maxHelp :: Int -> Int -> Int
---maxHelp a b | a > b = a | otherwise = b
-
+grTh :: Int -> Int -> Int -- Greater than
+grTh x y | x > y = x | otherwise = y
 
 -- | Get the minimum integer from a binary tree.
 --
@@ -103,7 +102,12 @@ rightmost (Node x y z) = rightmost z
 --   >>> minInt t2
 --   1
 --
-minInt = undefined
+minInt :: Tree -> Int
+minInt (Leaf a) = a
+minInt (Node x y z) = leTh x (leTh (minInt y) (minInt z))
+
+leTh :: Int -> Int -> Int -- less than
+leTh x y | x < y = x | otherwise = y
 
 
 -- | Get the sum of the integers in a binary tree.
@@ -120,7 +124,9 @@ minInt = undefined
 --   >>> sumInts (Node 10 t1 t2)
 --   100
 --
-sumInts = undefined
+sumInts :: Tree -> Int
+sumInts (Leaf a) = a
+sumInts (Node x y z) = x + (sumInts y) + (sumInts z)
 
 
 -- | The list of integers encountered by a pre-order traversal of the tree.
@@ -137,7 +143,10 @@ sumInts = undefined
 --   >>> preorder t2
 --   [6,2,1,4,3,5,8,7,9]
 --   
-preorder = undefined
+preorder :: Tree -> [Int]
+preorder (Leaf a) = [a]
+preorder (Node x y z) = [x] ++ (preorder y) ++ (preorder z) 
+
 
 
 -- | The list of integers encountered by an in-order traversal of the tree.
@@ -154,7 +163,9 @@ preorder = undefined
 --   >>> inorder t2
 --   [1,2,3,4,5,6,7,8,9]
 --   
-inorder = undefined
+inorder :: Tree -> [Int]
+inorder (Leaf a) = [a]
+inorder (Node x y z) = (inorder y) ++ [x] ++ (inorder z) 
 
 
 -- | Check whether a binary tree is a binary search tree.
@@ -171,7 +182,14 @@ inorder = undefined
 --   >>> isBST t2
 --   True
 --   
-isBST = undefined
+isBST :: Tree -> Bool
+isBST (Leaf a) = True
+isBST (Node x y z) = ((isBST y) && (isBST z)) && -- The left sub tree and right subtree are BST
+      ((x > getVal y) && (x < getVal z)) -- Make sure that the left node is less and the right is more
+
+getVal :: Tree -> Int
+getVal (Leaf a) = a
+getVal (Node x y z) = x
 
 
 -- | Check whether a number is contained in a binary search tree.
@@ -189,4 +207,21 @@ isBST = undefined
 --   >>> inBST 10 t2
 --   False
 --   
-inBST = undefined
+inBST :: Int -> Tree -> Bool
+inBST b (Leaf a) = a == b 
+inBST k (Node x y z) = inBST k y || inBST k z || x == k
+
+
+
+
+-- | This is jon's grave yard of functions that could have been but alas are not
+--maxInt :: Tree -> Int
+--maxInt (Leaf a) = a
+--maxInt (Node x y z) =
+--  if maxInt y > maxInt z
+    --then if x > maxInt y
+--      then x
+      --else maxInt y
+    --else if x > maxInt z
+    --then x
+    --else maxInt z
