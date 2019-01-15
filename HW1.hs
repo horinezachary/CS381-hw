@@ -19,6 +19,9 @@ t2 :: Tree
 t2 = Node 6 (Node 2 (Leaf 1) (Node 4 (Leaf 3) (Leaf 5)))
             (Node 8 (Leaf 7) (Leaf 9))
 
+t3 :: Tree
+t3 = Node 6 (Leaf 6) (Leaf 7)
+
 
 -- | The integer at the left-most node of a binary tree.
 --
@@ -34,7 +37,10 @@ t2 = Node 6 (Node 2 (Leaf 1) (Node 4 (Leaf 3) (Leaf 5)))
 --   >>> leftmost t2
 --   1
 --
-leftmost = undefined
+leftmost :: Tree -> Int
+leftmost (Leaf a) = a
+leftmost (Node x y z) = leftmost y
+
 
 
 -- | The integer at the right-most node of a binary tree.
@@ -51,8 +57,9 @@ leftmost = undefined
 --   >>> rightmost t2
 --   9
 --
-rightmost = undefined
-
+rightmost :: Tree -> Int
+rightmost (Leaf a) = a
+rightmost (Node x y z) = rightmost z
 
 -- | Get the maximum integer from a binary tree.
 --
@@ -71,7 +78,12 @@ rightmost = undefined
 --   >>> maxInt t2
 --   9
 --
-maxInt = undefined
+--maxInt :: Tree -> Int
+--maxInt (Leaf a) = a
+--maxInt (Node x y z) | (maxInt y) > (maxInt z) = 
+
+--maxHelp :: Int -> Int -> Int
+--maxHelp a b | a > b = a | otherwise = b
 
 
 -- | Get the minimum integer from a binary tree.
