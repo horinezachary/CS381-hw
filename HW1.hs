@@ -30,7 +30,7 @@ t3 = Node 6 (Leaf 6) (Leaf 7)
 --
 --   >>> leftmost (Node 5 (Leaf 6) (Leaf 7))
 --   6
---   
+--
 --   >>> leftmost t1
 --   4
 --
@@ -50,7 +50,7 @@ leftmost (Node x y z) = leftmost y
 --
 --   >>> rightmost (Node 5 (Leaf 6) (Leaf 7))
 --   7
---   
+--
 --   >>> rightmost t1
 --   9
 --
@@ -80,7 +80,7 @@ rightmost (Node x y z) = rightmost z
 --
 maxInt :: Tree -> Int
 maxInt (Leaf a) = a
-maxInt (Node x y z) = leTh x (grTh (maxInt y) (maxInt z))
+maxInt (Node x y z) = grTh x (grTh (maxInt y) (maxInt z))
 
 grTh :: Int -> Int -> Int -- Greater than
 grTh x y | x > y = x | otherwise = y
@@ -142,10 +142,10 @@ sumInts (Node x y z) = x + (sumInts y) + (sumInts z)
 --
 --   >>> preorder t2
 --   [6,2,1,4,3,5,8,7,9]
---   
+--
 preorder :: Tree -> [Int]
 preorder (Leaf a) = [a]
-preorder (Node x y z) = [x] ++ (preorder y) ++ (preorder z) 
+preorder (Node x y z) = [x] ++ (preorder y) ++ (preorder z)
 
 
 
@@ -162,10 +162,10 @@ preorder (Node x y z) = [x] ++ (preorder y) ++ (preorder z)
 --
 --   >>> inorder t2
 --   [1,2,3,4,5,6,7,8,9]
---   
+--
 inorder :: Tree -> [Int]
 inorder (Leaf a) = [a]
-inorder (Node x y z) = (inorder y) ++ [x] ++ (inorder z) 
+inorder (Node x y z) = (inorder y) ++ [x] ++ (inorder z)
 
 
 -- | Check whether a binary tree is a binary search tree.
@@ -175,13 +175,13 @@ inorder (Node x y z) = (inorder y) ++ [x] ++ (inorder z)
 --
 --   >>> isBST (Node 5 (Leaf 6) (Leaf 7))
 --   False
---   
+--
 --   >>> isBST t1
 --   False
 --
 --   >>> isBST t2
 --   True
---   
+--
 isBST :: Tree -> Bool
 isBST (Leaf a) = True
 isBST (Node x y z) = ((isBST y) && (isBST z)) && -- The left sub tree and right subtree are BST
@@ -206,9 +206,9 @@ getVal (Node x y z) = x
 --
 --   >>> inBST 10 t2
 --   False
---   
+--
 inBST :: Int -> Tree -> Bool
-inBST b (Leaf a) = a == b 
+inBST b (Leaf a) = a == b
 inBST k (Node x y z) = inBST k y || inBST k z || x == k
 
 
