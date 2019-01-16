@@ -80,10 +80,7 @@ rightmost (Node x y z) = rightmost z
 --
 maxInt :: Tree -> Int
 maxInt (Leaf a) = a
-maxInt (Node x y z) = grTh x (grTh (maxInt y) (maxInt z))
-
-grTh :: Int -> Int -> Int -- Greater than
-grTh x y | x > y = x | otherwise = y
+maxInt (Node x y z) = max x (max (maxInt y) (maxInt z))
 
 -- | Get the minimum integer from a binary tree.
 --
@@ -104,11 +101,7 @@ grTh x y | x > y = x | otherwise = y
 --
 minInt :: Tree -> Int
 minInt (Leaf a) = a
-minInt (Node x y z) = leTh x (leTh (minInt y) (minInt z))
-
-leTh :: Int -> Int -> Int -- less than
-leTh x y | x < y = x | otherwise = y
-
+minInt (Node x y z) = min x (min (minInt y) (minInt z))
 
 -- | Get the sum of the integers in a binary tree.
 --
