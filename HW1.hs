@@ -102,6 +102,10 @@ maxInt (Node x y z) = max x (max (maxInt y) (maxInt z))
 minInt :: Tree -> Int
 minInt (Leaf a) = a
 minInt (Node x y z) = min x (min (minInt y) (minInt z))
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8af14c63afc9aba4ec7f7e4f5ba9feaad489ff3c
 
 -- | Get the sum of the integers in a binary tree.
 --
