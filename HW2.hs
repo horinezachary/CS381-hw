@@ -29,7 +29,7 @@ ex = Node 4 (Node 3 (leaf 2) End)
 
 -- | Map a function over a tree. Applies the given function to every label
 --   in the tree, preserving the tree's structure.
---   
+--
 --   >>> mapTree odd End
 --   End
 --
@@ -45,7 +45,9 @@ ex = Node 4 (Node 3 (leaf 2) End)
 --   >>> ex == (mapTree (subtract 27) . mapTree (+27)) ex
 --   True
 --
-mapTree = undefined
+mapTree :: (a->b) -> (Tree a) -> (Tree b)
+mapTree f (Node a xl xr) = Node (f a) (mapTree f xl) (mapTree f xr)
+mapTree f (end) = End
 
 
 -- | Get the value at the node specified by a path. Returns 'Nothing' if
