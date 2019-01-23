@@ -1,2 +1,2 @@
 # CS381-hw
-By Zach & Jon
+By Zach & Jon & Griffin
