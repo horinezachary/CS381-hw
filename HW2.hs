@@ -1,3 +1,7 @@
+--HW2
+--Created by: Zachary Horine, Griffin Thenell & Jonathan Rich
+--horinez,thenellg,richj
+
 module HW2 where
 
 -- | Binary trees with nodes labeled by values of an arbitrary type.
