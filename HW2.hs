@@ -68,7 +68,11 @@ mapTree f (end) = End
 --   >>> valueAt [L,L,L] ex
 --   Nothing
 --
-valueAt = undefined
+valueAt :: [Step] -> (Tree b) -> Maybe c
+valueAt [] (Node b _ _) = b --????
+valueAt ((L):t) (Node b xl xr) = valueAt t (xl)
+valueAt ((R):t) (Node b xl xr) = valueAt t (xr)
+--valueAt (h:t) _ = Nothing
 
 
 -- | Find a path to a node that contains the given value.
