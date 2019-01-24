@@ -97,4 +97,7 @@ valueAt [] (Node b xl xr) = Just b
 --   Nothing
 --
 pathTo :: Eq a => a -> Tree a -> Maybe Path
-pathTo = undefined
+pathTo search (End) = Nothing
+pathTo search (Node a xl xr)
+      | search == a = Just []
+--      | (fmap (L:) (pathTo search xl)) <|> (fmap (R:) (pathTo search xr))
