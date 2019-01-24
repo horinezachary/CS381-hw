@@ -1,6 +1,6 @@
---HW2
---Created by: Zachary Horine, Griffin Thenell & Jonathan Rich
---horinez,thenellg,richj
+-- | HW2
+-- | Created by: Zachary Horine, Griffin Thenell & Jonathan Rich
+-- | horinez,thenellg,richj
 
 module HW2 where
 
@@ -96,8 +96,15 @@ valueAt [] (Node b xl xr) = Just b
 --   >>> pathTo 10 ex
 --   Nothing
 --
-pathTo :: Eq a => a -> Tree a -> Maybe Path
+pathTo :: Eq a => a -> Tree a -> Maybe [Step]
 pathTo search (End) = Nothing
-pathTo search (Node a xl xr)
-      | search == a = Just []
---      | (fmap (L:) (pathTo search xl)) <|> (fmap (R:) (pathTo search xr))
+pathTo search (Node a xl xr) =
+      if search == a then Just []
+         else if ((pathTo search xl) /= Nothing) then ((pathHelper L (pathTo search xl)))
+         else ((pathHelper R (pathTo search xr)))
+
+
+pathHelper :: Step -> Maybe [Step] -> Maybe [Step]
+pathHelper a b = case b of
+  Nothing -> Nothing
+  Just b' -> Just (a:b')
