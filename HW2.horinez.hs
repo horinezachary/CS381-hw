@@ -96,7 +96,7 @@ valueAt [] (Node b xl xr) = Just b
 --   >>> pathTo 10 ex
 --   Nothing
 --
-pathTo :: Eq a => a -> Tree a -> Maybe [Step]
+pathTo :: Eq a => a -> Tree a -> Maybe Path
 pathTo search (End) = Nothing
 pathTo search (Node a xl xr) =
       if search == a then Just []
@@ -104,7 +104,7 @@ pathTo search (Node a xl xr) =
          else ((pathHelper R (pathTo search xr)))
 
 
-pathHelper :: Step -> Maybe [Step] -> Maybe [Step]
+pathHelper :: Step -> Maybe [Step] -> Maybe Path
 pathHelper a b = case b of
   Nothing -> Nothing
   Just b' -> Just (a:b')
