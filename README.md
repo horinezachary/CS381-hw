@@ -1,7 +1,7 @@
-# CS381-hw
-By Zach & Jon & Griffin
+### CS381 Homework
+##### Zachary Horine, Jonathan Rich and Griffin Thenell
 
-# HW3
+### HW3
 
 MiniLogo is toy version of the Logo language for programming simple 2D graphics. A MiniLogo program describes a graphic by a sequence of move commands that move a pen from one position to another on a Cartesian plane, drawing lines as it goes. For example, here is a MiniLogo program that draws a 2x2 square with its bottom-left corner at the origin.
 
