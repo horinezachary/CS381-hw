@@ -64,24 +64,24 @@ cmd	::=	pen mode	change pen mode
 
     * Second, encode the macro definition as a Haskell value, representing the abstract syntax of the definition.
 
-1. Define a Haskell function `<steps :: Int -> Prog>` that constructs a MiniLogo program that draws a staircase of n steps starting from (0,0). Below is a visual illustration of what the generated program should draw for a couple different applications of steps.
+1. Define a Haskell function `steps :: Int -> Prog` that constructs a MiniLogo program that draws a staircase of n steps starting from (0,0). Below is a visual illustration of what the generated program should draw for a couple different applications of steps.
 
     * Example output of steps function:
 ![img](http://web.engr.oregonstate.edu/~walkiner/teaching/cs381-wi19/images/Steps.png)
 
 
-1. Define a Haskell function `<macros :: Prog -> [Macro]>` that returns a list of the names of all of the macros that are defined anywhere in a given MiniLogo program. Don’t worry about duplicates—if a macro is defined more than once, the resulting list may include multiple copies of its name.
+1. Define a Haskell function `macros :: Prog -> [Macro]` that returns a list of the names of all of the macros that are defined anywhere in a given MiniLogo program. Don’t worry about duplicates—if a macro is defined more than once, the resulting list may include multiple copies of its name.
 
-1. Define a Haskell function `<pretty :: Prog -> String>` that pretty-prints a MiniLogo program. That is, it transforms the abstract syntax (a Haskell value) into nicely formatted concrete syntax (a string of characters). Your pretty-printed program should look similar to the example programs given above; however, for simplicity you will probably want to print just one command per line.
+1. Define a Haskell function `pretty :: Prog -> String` that pretty-prints a MiniLogo program. That is, it transforms the abstract syntax (a Haskell value) into nicely formatted concrete syntax (a string of characters). Your pretty-printed program should look similar to the example programs given above; however, for simplicity you will probably want to print just one command per line.
 
-1. In GHCi, you can render a string with newlines by applying the function putStrLn. So, to pretty-print a program p use: `<putStrLn (pretty p)>`.
+1. In GHCi, you can render a string with newlines by applying the function putStrLn. So, to pretty-print a program p use: `putStrLn (pretty p)`.
 
 For all of these tasks, you are free to define whatever helper functions you need. You may also use functions from the Prelude and Data.List. You may find the functions intersperse or intercalate in Data.List useful for inserting commas in your implementation of pretty.
 
 # Bonus Problems
 These problems are not any harder than the other problems in the assignment. They are included mainly to give you a bit more practice writing Haskell functions that manipulate syntax, if you want that. However, as a little external incentive, you will earn a small amount of extra credit if you complete them both.
 
-1. Define a Haskell function `<optE :: Expr -> Expr>` that partially evaluates expressions by replacing any additions of literals with the result. For example, given the expression `<(2+3)+x, optE>` should return the expression 5+x.
+1. Define a Haskell function `optE :: Expr -> Expr` that partially evaluates expressions by replacing any additions of literals with the result. For example, given the expression `(2+3)+x, optE` should return the expression 5+x.
 
-1. Define a Haskell function `<optP :: Prog -> Prog>` that optimizes all of the expressions contained in a given program using optE.
+1. Define a Haskell function `optP :: Prog -> Prog` that optimizes all of the expressions contained in a given program using optE.
 
