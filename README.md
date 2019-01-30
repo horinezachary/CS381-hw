@@ -50,31 +50,39 @@ cmd	::=	pen mode	change pen mode
 |	call macro ( expr* )	invoke a macro
 ```
 ### Tasks
-1. Define the abstract syntax of MiniLogo as a set of Haskell data types. You should use built-in types for num, var, and macro. (If you want to define a type Num, you will have to hide that name from the Prelude).
+1) Define the abstract syntax of MiniLogo as a set of Haskell data types. You should use built-in types for num, var, and macro. (If you want to define a type Num, you will have to hide that name from the Prelude).
 
-1. Define a MiniLogo macro line (x1,y1,x2,y2) that (starting from anywhere on the canvas) draws a line segment from (x1,y1) to (x2,y2).
+2) Define a MiniLogo macro line (x1,y1,x2,y2) that (starting from anywhere on the canvas) draws a line segment from (x1,y1) to (x2,y2).
 
     * First, write the macro in MiniLogo concrete syntax (i.e. the notation defined by the grammar and used in the example programs above). Include this definition in a comment in your submission.
 
     * Second, encode the macro definition as a Haskell value using the data types defined in Task 1. This corresponds to the abstract syntax of MiniLogo. Your Haskell definition should start with something like line = Define "line" ...
 
-1. Use the line macro you just defined to define a new MiniLogo macro nix (x,y,w,h) that draws a big “X” of width w and height h, starting from position (x,y). Your definition should not contain any move commands.
+3) Use the line macro you just defined to define a new MiniLogo macro nix (x,y,w,h) that draws a big “X” of width w and height h, starting from position (x,y). Your definition should not contain any move commands.
 
     * First, write the macro in MiniLogo concrete syntax and include this definition in a comment in your submission.
 
     * Second, encode the macro definition as a Haskell value, representing the abstract syntax of the definition.
 
-1. Define a Haskell function `steps :: Int -> Prog` that constructs a MiniLogo program that draws a staircase of n steps starting from (0,0). Below is a visual illustration of what the generated program should draw for a couple different applications of steps.
+4) Define a Haskell function `steps :: Int -> Prog` that constructs a MiniLogo program that draws a staircase of n steps starting from (0,0). Below is a visual illustration of what the generated program should draw for a couple different applications of steps.
 
     * Example output of steps function:
-![img](http://web.engr.oregonstate.edu/~walkiner/teaching/cs381-wi19/images/Steps.png)
+```
+                 _____ (1,1)                          _____ (3,3)
+                |                                    |      
+           (0,0)|                         (1,2) _____|     
+                                               |
+                                          _____|
+                                         |      
+                                    (0,0)|
+                  steps 1                         steps 3
+```
 
+5) Define a Haskell function `macros :: Prog -> [Macro]` that returns a list of the names of all of the macros that are defined anywhere in a given MiniLogo program. Don’t worry about duplicates—if a macro is defined more than once, the resulting list may include multiple copies of its name.
 
-1. Define a Haskell function `macros :: Prog -> [Macro]` that returns a list of the names of all of the macros that are defined anywhere in a given MiniLogo program. Don’t worry about duplicates—if a macro is defined more than once, the resulting list may include multiple copies of its name.
+6) Define a Haskell function `pretty :: Prog -> String` that pretty-prints a MiniLogo program. That is, it transforms the abstract syntax (a Haskell value) into nicely formatted concrete syntax (a string of characters). Your pretty-printed program should look similar to the example programs given above; however, for simplicity you will probably want to print just one command per line.
 
-1. Define a Haskell function `pretty :: Prog -> String` that pretty-prints a MiniLogo program. That is, it transforms the abstract syntax (a Haskell value) into nicely formatted concrete syntax (a string of characters). Your pretty-printed program should look similar to the example programs given above; however, for simplicity you will probably want to print just one command per line.
-
-1. In GHCi, you can render a string with newlines by applying the function putStrLn. So, to pretty-print a program p use: `putStrLn (pretty p)`.
+7) In GHCi, you can render a string with newlines by applying the function putStrLn. So, to pretty-print a program p use: `putStrLn (pretty p)`.
 
 For all of these tasks, you are free to define whatever helper functions you need. You may also use functions from the Prelude and Data.List. You may find the functions intersperse or intercalate in Data.List useful for inserting commas in your implementation of pretty.
 
