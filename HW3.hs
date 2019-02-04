@@ -104,5 +104,10 @@ nix = Define "Nix" ["x","y","w","h"]
 -- |                 steps 1                         steps 3
 
 steps:: Int -> Prog
-steps 0 = []
-steps n = steps (n-1) ++ [Move (n-1) (n), Move (n) (n)]
+steps = Define "Steps" ["n"] {
+   steps 0 = [] -- ??? how to terminate loop?
+   steps n = steps (n-1) ++ [Move (n-1) (n), Move (n) (n)]
+}
+--steps :: Int -> Prog
+--steps = Define "Steps" ["n"] [Pen Up, Move 0 0, Pen Down, Call ["Step" [Var "n"]]]
+--step n = Define "Step" ["n"] [Call "Step" [(Add (Var "n") (0-1)), Move (Add (Var "n") (0-1)) (Var "n"), Move (Var "n") (Var "n")]]
