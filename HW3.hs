@@ -47,5 +47,5 @@ data Cmd = Pen Mode
 -- |                 steps 1                         steps 3
 
 steps:: Int -> Prog
-step 0 = []
-step n = step (n-1) ++ [Move (n-1) (n), Move (n) (n)]
+steps 0 = []
+steps n = steps (n-1) ++ [Move (n-1) (n), Move (n) (n)]
