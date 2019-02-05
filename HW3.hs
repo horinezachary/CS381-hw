@@ -78,7 +78,7 @@ line = Define "Line" ["x1","y1","x2","y2"] [Pen Up, Move (Var "x1") (Var "y1"), 
 -- |
 
 -- nix :: Cmd -> Prog (not needed, throws error)
-nix = Define "nix" ["x","y","w","h"] [
+nix = Define "Nix" ["x","y","w","h"] [
    Call "Line" [(Var "x"), (Var "y"), Add (Var "x") (Var "w"), Add (Var "y") (Var "h")],
    Call "Line" [(Var "x"), Add (Var "y") (Var "h"), Add (Var "x") (Var "w"), (Var "y")]]
 
