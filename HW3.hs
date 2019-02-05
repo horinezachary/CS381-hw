@@ -110,3 +110,7 @@ steps n = [Call "Line" [Num n, Num n, Num (n-1),Num n],
 -- | than once, the resulting list may include multiple copies of its name.
 
 macros :: Prog -> [Macro]
+macros [] = []
+macros (h:t) = case h of
+   Define m _ _ -> m:(macros t)
+   otherwise -> macros t
