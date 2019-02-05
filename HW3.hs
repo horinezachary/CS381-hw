@@ -114,7 +114,12 @@ steps n = [Call "Line" [Num n, Num n, Num (n-1),Num n],
 -- | putStrLn. So, to pretty-print a program p use: putStrLn (pretty p).
 --
 --   >>>pretty [Define "func1" ["x","y","z"] [Pen Up,Pen Down,Move (Var "x") (Var "y"),Call "Line" [Var "x",Var "x",Var "y",Var "y"]]]
---   "define func1 (x, y, z) {pen up; pen down; move (x,y); Line(x, x, y, y); }"
+--   "define func1 (x,y,z) {pen up; pen down; move (x,y); Line(x, x, y, y); }"
+--
+--   >>>pretty [Define "square" ["x","y"] [Pen Up,Move (Var "x") (Var "y"),Pen Down,Move (Add (Var "x") (Num 2)) (Var "y"), Move (Add (Var "x") (Num 2)) (Add (Var "y") (Num 2)), Move (Var "x") (Add (Var "y") (Num 2)), Move (Var "x") (Var "y")]]
+--   "define square (x,y) {pen up; move (x,y); pen down; move (x+2,y); move (x+2,y+2); move (x,y+2); move (x,y); }"
+
+
 
 pretty :: Prog -> String
 pretty [] = ""
@@ -122,7 +127,7 @@ pretty (Pen Up:t) = "pen up; " ++ pretty t
 pretty (Pen Down:t) = "pen down; " ++ pretty t
 pretty (Move x y:t) = "move (" ++ resolveExpr x ++ "," ++ resolveExpr y ++ "); " ++ pretty t
 pretty (Call f arg:t) = f ++ "(" ++ intercalate ", " (map resolveExpr arg) ++ "); " ++ pretty t
-pretty (Define f arg prog:t) = "define " ++ f ++ " (" ++ intercalate ", " arg ++ ") " ++ "{" ++ pretty prog ++ "}" ++ pretty t
+pretty (Define f arg prog:t) = "define " ++ f ++ " (" ++ intercalate "," arg ++ ") " ++ "{" ++ pretty prog ++ "}" ++ pretty t
 
 resolveExpr :: Expr -> String
 resolveExpr (Num n) = show n
