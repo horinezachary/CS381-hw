@@ -113,6 +113,9 @@ steps n = [Call "Line" [Num n, Num n, Num (n-1),Num n],
 -- | In GHCi, you can render a string with newlines by applying the function
 -- | putStrLn. So, to pretty-print a program p use: putStrLn (pretty p).
 
+--   >>>pretty [Define "func1" ["x","y","z"] [Pen Up,Pen Down,Move (Var "x") (Var "y"),Call "Line" [Var "x",Var "x",Var "y",Var "y"]]]
+--   "define func1 (x, y, z) {pen up; pen down; move (x,y); Line(x, x, y, y);}"
+
 pretty :: Prog -> String
 pretty [] = ""
 pretty (Pen Up:t) = "pen up;" ++ pretty t
