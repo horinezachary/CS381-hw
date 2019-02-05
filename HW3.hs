@@ -27,9 +27,9 @@ import Prelude hiding (Num)
 -- | |	call macro ( expr* )	invoke a macro
 
 
-
 -- | #1. Define the abstract syntax of MiniLogo as a set of Haskell data types.
 -- | You should use built-in types for num, var, and macro.
+
 type Num = Int
 type Var = String
 type Macro = String
@@ -41,15 +41,15 @@ data Mode = Up
           deriving (Eq,Show)
 
 data Expr = Var Var
-          | Num Num
+          | Num Int
           | Add Expr Expr
           deriving (Eq,Show)
 
-data Cmd = Move Expr Expr
+data Cmd = Pen Mode
+         | Move Expr Expr
          | Define Macro [Var] Prog
          | Call Macro [Expr]
          deriving (Eq,Show)
-
 
 -- | #2. Define a MiniLogo macro line (x1,y1,x2,y2) that (starting from anywhere on the canvas) draws a line segment from (x1,y1) to (x2,y2).
 -- |
@@ -58,12 +58,11 @@ data Cmd = Move Expr Expr
 -- | define line (x1,y2,x2,y2) {
 -- | 	Pen up; Move(x1,y1);
 -- | 	Pen down; Move(x2,y2);
+-- | }
 -- |
--- | Haskell value:
--- |
-line :: Cmd -> Prog
-line = Define "Line" ["x1","y1","x2","y2"]
-   [Pen Up, Move(Var "x1") (Var "y1"), Pen Down, Move(Var "x2") (Var "y2")]
+
+--line :: Cmd -> Prog (not needed, throws error)
+line = Define "Line" ["x1","y1","x2","y2"] [Pen Up, Move (Var "x1") (Var "y1"), Pen Down, Move(Var "x2") (Var "y2")]
 
 -- | #3. Use the line macro you just defined to define a new MiniLogo macro nix (x,y,w,h) that draws a big “X” of width w and height h, starting from position (x,y).
 -- | Your definition should not contain any move commands.
@@ -77,14 +76,11 @@ line = Define "Line" ["x1","y1","x2","y2"]
 -- | 	Pen Down; Move (x+w, y);
 -- | }
 -- |
--- | Haskell value:
--- |
-nix :: Cmd -> Prog
-nix = Define "Nix" ["x","y","w","h"]
-   Call ["Line" [(Var "x"), (Var "y"),
-   Add (Var "x") (Var "w"), Add (Var "y") (Var "h")],
-   Call "Line" [(Var "x"), Add (Var "y") (Var "h"),
-   Add (Var "x") (Var "w"), (Var "y")]]
+
+-- nix :: Cmd -> Prog (not needed, throws error)
+nix = Define "nix" ["x","y","w","h"] [
+   Call "Line" [(Var "x"), (Var "y"), Add (Var "x") (Var "w"), Add (Var "y") (Var "h")],
+   Call "Line" [(Var "x"), Add (Var "y") (Var "h"), Add (Var "x") (Var "w"), (Var "y")]]
 
 
 -- | #4. Define a Haskell function steps :: Int -> Prog that constructs a
@@ -104,10 +100,7 @@ nix = Define "Nix" ["x","y","w","h"]
 -- |                 steps 1                         steps 3
 
 steps:: Int -> Prog
-steps = Define "Steps" ["n"] {
-   steps 0 = [] -- ??? how to terminate loop?
-   steps n = steps (n-1) ++ [Move (n-1) (n), Move (n) (n)]
-}
---steps :: Int -> Prog
---steps = Define "Steps" ["n"] [Pen Up, Move 0 0, Pen Down, Call ["Step" [Var "n"]]]
---step n = Define "Step" ["n"] [Call "Step" [(Add (Var "n") (0-1)), Move (Add (Var "n") (0-1)) (Var "n"), Move (Var "n") (Var "n")]]
+steps 0 = []
+steps n = [Call "Line" [Num n, Num n, Num (n-1),Num n],
+           Call "Line" [Num n, Num n, Num n,Num (n-1)]] ++ steps (n-1)
+
