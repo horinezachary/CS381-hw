@@ -121,6 +121,11 @@ macros (h:t) = case h of
    Define m _ _ -> m:(macros t)
    otherwise -> macros t
 
+
+
+
+
+
    -- | BONUS Problems
    -- | --------------
    -- |
