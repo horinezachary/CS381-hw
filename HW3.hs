@@ -64,6 +64,7 @@ data Cmd = Pen Mode
 --line :: Cmd -> Prog (not needed, throws error)
 line = Define "Line" ["x1","y1","x2","y2"] [Pen Up, Move (Var "x1") (Var "y1"), Pen Down, Move(Var "x2") (Var "y2")]
 
+
 -- | #3. Use the line macro you just defined to define a new MiniLogo macro nix (x,y,w,h) that draws a big “X” of width w and height h, starting from position (x,y).
 -- | Your definition should not contain any move commands.
 -- |
@@ -120,3 +121,33 @@ macros [] = []
 macros (h:t) = case h of
    Define m _ _ -> m:(macros t)
    otherwise -> macros t
+   
+   
+-- | #6. Define a Haskell function pretty :: Prog -> String that pretty-prints
+-- | a MiniLogo program. That is, it transforms the abstract syntax (a Haskell
+-- | value) into nicely formatted concrete syntax (a string of characters).
+-- | Your pretty-printed program should look similar to the example programs
+-- | given above; however, for simplicity you will probably want to print just
+-- | one command per line.
+-- | In GHCi, you can render a string with newlines by applying the function
+-- | putStrLn. So, to pretty-print a program p use: putStrLn (pretty p).
+--
+--   >>>pretty [Define "func1" ["x","y","z"] [Pen Up,Pen Down,Move (Var "x") (Var "y"),Call "Line" [Var "x",Var "x",Var "y",Var "y"]]]
+--   "define func1 (x,y,z) {pen up; pen down; move (x,y); Line(x, x, y, y); }"
+--
+--   >>>pretty [Define "square" ["x","y"] [Pen Up,Move (Var "x") (Var "y"),Pen Down,Move (Add (Var "x") (Num 2)) (Var "y"), Move (Add (Var "x") (Num 2)) (Add (Var "y") (Num 2)), Move (Var "x") (Add (Var "y") (Num 2)), Move (Var "x") (Var "y")]]
+--   "define square (x,y) {pen up; move (x,y); pen down; move (x+2,y); move (x+2,y+2); move (x,y+2); move (x,y); }"
+
+
+pretty :: Prog -> String
+pretty [] = ""
+pretty (Pen Up:t) = "pen up; " ++ pretty t
+pretty (Pen Down:t) = "pen down; " ++ pretty t
+pretty (Move x y:t) = "move (" ++ resolveExpr x ++ "," ++ resolveExpr y ++ "); " ++ pretty t
+pretty (Call f arg:t) = f ++ "(" ++ intercalate ", " (map resolveExpr arg) ++ "); " ++ pretty t
+pretty (Define f arg prog:t) = "define " ++ f ++ " (" ++ intercalate "," arg ++ ") " ++ "{" ++ pretty prog ++ "}" ++ pretty t
+
+resolveExpr :: Expr -> String
+resolveExpr (Num n) = show n
+resolveExpr (Var v) = v
+resolveExpr (Add x y) = resolveExpr x ++ "+" ++ resolveExpr y

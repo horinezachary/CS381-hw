@@ -32,18 +32,18 @@ Notice in the definition of the square macro, that we can also perform addition 
 
 The concrete syntax of the MiniLogo language is defined by the following grammar:
 ```haskell
-num	::=	(any natural number)	
-var	::=	(any variable name)	
-macro	::=	(any macro name)	
- 			
+num	::=	(any natural number)
+var	::=	(any variable name)
+macro	::=	(any macro name)
+
 prog	::=	ε   |   cmd ; prog	sequence of commands
- 			
+
 mode	::=	down   |   up	pen status
- 			
+
 expr	::=	var	variable reference
 |	num	literal number
 |	expr + expr	addition expression
- 			
+
 cmd	::=	pen mode	change pen mode
 |	move ( expr , expr )	move pen to a new position
 |	define macro ( var* ) { prog }  	define a macro
@@ -82,7 +82,7 @@ cmd	::=	pen mode	change pen mode
 
 6) Define a Haskell function `pretty :: Prog -> String` that pretty-prints a MiniLogo program. That is, it transforms the abstract syntax (a Haskell value) into nicely formatted concrete syntax (a string of characters). Your pretty-printed program should look similar to the example programs given above; however, for simplicity you will probably want to print just one command per line.
 
-7) In GHCi, you can render a string with newlines by applying the function putStrLn. So, to pretty-print a program p use: `putStrLn (pretty p)`.
+In GHCi, you can render a string with newlines by applying the function putStrLn. So, to pretty-print a program p use: `putStrLn (pretty p)`.
 
 For all of these tasks, you are free to define whatever helper functions you need. You may also use functions from the Prelude and Data.List. You may find the functions intersperse or intercalate in Data.List useful for inserting commas in your implementation of pretty.
 
@@ -92,4 +92,3 @@ These problems are not any harder than the other problems in the assignment. The
 1. Define a Haskell function `optE :: Expr -> Expr` that partially evaluates expressions by replacing any additions of literals with the result. For example, given the expression `(2+3)+x, optE` should return the expression 5+x.
 
 1. Define a Haskell function `optP :: Prog -> Prog` that optimizes all of the expressions contained in a given program using optE.
-
