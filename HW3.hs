@@ -85,3 +85,19 @@ Nix = Define "Nix" ["x","y","w","h"]
 	Add (Var "x") (Var "w"), Add (Var "y") (Var "h")],
 	Call "Line" [(Var "x"), Add (Var "y") (Var "h"),
 	Add (Var "x") (Var "w"), (Var "y")]]
+
+
+-- | BONUS Problems
+-- | --------------
+-- |
+-- | #1. Define a Haskell function optE :: Expr -> Expr that partially evaluates
+-- | expressions by replacing any additions of literals with the result.
+-- | For example, given the expression (2+3)+x, optE should return the
+-- | expression 5+x.
+
+optE :: Expr -> Expr
+
+-- | #2. Define a Haskell function optP :: Prog -> Prog that optimizes all of
+-- | the expressions contained in a given program using optE.
+
+optP :: Prog -> Prog
