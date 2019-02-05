@@ -104,3 +104,19 @@ steps 0 = []
 steps n = [Call "Line" [Num n, Num n, Num (n-1),Num n],
            Call "Line" [Num n, Num n, Num n,Num (n-1)]] ++ steps (n-1)
 
+-- | #5. Define a Haskell function macros :: Prog -> [Macro] that returns a list
+-- | of the names of all of the macros that are defined anywhere in a given
+-- | MiniLogo program. Don’t worry about duplicates—if a macro is defined more
+-- | than once, the resulting list may include multiple copies of its name.
+
+--   >>> macros [Define "func1" ["x","y","z"] [Pen Up,Pen Down]]
+--   ["func1"]
+
+--   >>> macros [Define "func1" ["x","y","z"] [Pen Up,Pen Down], Define "func2" ["x"][Call "func1" [Num 1,Num 2,Num 3]]]
+--   ["func1","func2"]
+
+macros :: Prog -> [Macro]
+macros [] = []
+macros (h:t) = case h of
+   Define m _ _ -> m:(macros t)
+   otherwise -> macros t
