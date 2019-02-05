@@ -115,8 +115,13 @@ steps n = [Call "Line" [Num n, Num n, Num (n-1),Num n],
 
 pretty :: Prog -> String
 pretty [] = ""
-pretty (Pen Up:t) =
-pretty (Pen Down:t) =
-pretty (Move (x,y):t) =
-pretty (Call f arg:t) =
-pretty (Define f arg prog:t) =
+pretty (Pen Up:t) = "pen up;" ++ pretty t
+pretty (Pen Down:t) = "pen down;" ++ pretty t
+pretty (Move x y:t) = "move (" ++ resolveExpr x ++ "," ++ resolveExpr y ++ ");" ++ pretty t
+pretty (Call f arg:t) = f ++ "(" ++ intercalate ", " (map resolveExpr arg) ++ ");" ++ pretty t
+pretty (Define f arg prog:t) = "define " ++ f ++ "(" ++ intercalate ", " arg ++ ")" ++ "{" ++ pretty prog ++ "}" ++ pretty t
+
+resolveExpr :: Expr -> String
+resolveExpr (Num n) = show n
+resolveExpr (Var v) = v
+resolveExpr (Add x y) = resolveExpr x ++ "+" ++ resolveExpr y
