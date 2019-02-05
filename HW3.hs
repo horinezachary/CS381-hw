@@ -84,4 +84,14 @@ Nix = Define "Nix" ["x","y","w","h"]
 	Call ["Line" [(Var "x"), (Var "y"),
 	Add (Var "x") (Var "w"), Add (Var "y") (Var "h")],
 	Call "Line" [(Var "x"), Add (Var "y") (Var "h"),
-	Add (Var "x") (Var "w"), (Var "y")]]
+	Add (Var "x") (Var "w"), (Var "y")]]-- | #6. Define a Haskell function pretty :: Prog -> String that pretty-prints
+-- | #6. Define a Haskell function pretty :: Prog -> String that pretty-prints
+-- | a MiniLogo program. That is, it transforms the abstract syntax (a Haskell
+-- | value) into nicely formatted concrete syntax (a string of characters).
+-- | Your pretty-printed program should look similar to the example programs
+-- | given above; however, for simplicity you will probably want to print just
+-- | one command per line.
+-- | In GHCi, you can render a string with newlines by applying the function
+-- | putStrLn. So, to pretty-print a program p use: putStrLn (pretty p).
+
+pretty :: Prog -> String
