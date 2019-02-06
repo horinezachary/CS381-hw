@@ -108,10 +108,10 @@ steps n = [Call "Line" [Num n, Num n, Num (n-1),Num n],
 -- | of the names of all of the macros that are defined anywhere in a given
 -- | MiniLogo program. Don’t worry about duplicates—if a macro is defined more
 -- | than once, the resulting list may include multiple copies of its name.
-
+--
 --   >>> macros [Define "func1" ["x","y","z"] [Pen Up,Pen Down]]
 --   ["func1"]
-
+--
 --   >>> macros [Define "func1" ["x","y","z"] [Pen Up,Pen Down], Define "func2" ["x"][Call "func1" [Num 1,Num 2,Num 3]]]
 --   ["func1","func2"]
 
@@ -152,7 +152,7 @@ optE otherwise = otherwise
 
 -- | #2. Define a Haskell function optP :: Prog -> Prog that optimizes all of
 -- | the expressions contained in a given program using optE.
-
+--
 --   >>> optP [Define "func1" ["x","y","z"] [Pen Up,Pen Down]]
 --   [Define "func1" ["x","y","z"] [Pen Up,Pen Down]]
 --
