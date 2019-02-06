@@ -18,13 +18,13 @@ import Prelude hiding (Num)
 -- | mode	::=	down   |   up	pen status
 -- |
 -- | expr	::=	var	variable reference
--- | |	num	literal number
--- | |	expr + expr	addition expression
+-- |          |	num	literal number
+-- |          |	expr + expr	addition expression
 -- |
 -- | cmd	::=	pen mode	change pen mode
--- | |	move ( expr , expr )	move pen to a new position
--- | |	define macro ( var* ) { prog }  	define a macro
--- | |	call macro ( expr* )	invoke a macro
+-- |       |	move ( expr , expr )	move pen to a new position
+-- |       |	define macro ( var* ) { prog }  	define a macro
+-- |       |	call macro ( expr* )	invoke a macro
 
 
 -- | #1. Define the abstract syntax of MiniLogo as a set of Haskell data types.
