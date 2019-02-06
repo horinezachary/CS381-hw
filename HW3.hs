@@ -126,17 +126,46 @@ macros (h:t) = case h of
 
 
 
-   -- | BONUS Problems
-   -- | --------------
-   -- |
-   -- | #1. Define a Haskell function optE :: Expr -> Expr that partially evaluates
-   -- | expressions by replacing any additions of literals with the result.
-   -- | For example, given the expression (2+3)+x, optE should return the
-   -- | expression 5+x.
+-- | BONUS Problems
+-- | --------------
+-- |
+-- | #1. Define a Haskell function optE :: Expr -> Expr that partially evaluates
+-- | expressions by replacing any additions of literals with the result.
+-- | For example, given the expression (2+3)+x, optE should return the
+-- | expression 5+x.
+--
+--   >>> optE (Add (Num 5) (Num 6))
+--   Num 11
+--
+--   >>> optE (Add (Num 5) (Add (Num 4) (Num 6)))
+--   Num 15
+--
+--   >>> optE (Add (Num 5) (Add (Var "x") (Num 2)))
+--   Add (Num 5) (Add (Var "x") (Num 2))
 
-   optE :: Expr -> Expr
+optE :: Expr -> Expr
+optE (Add (Num x) (Num y)) = Num $ x + y
+optE (Add (Add x y) (Num z)) = optE (Add (optE (Add x y)) (Num z))
+optE (Add (Num z) (Add x y)) = optE (Add (Num z) (optE (Add x y)))
+optE otherwise = otherwise
 
-   -- | #2. Define a Haskell function optP :: Prog -> Prog that optimizes all of
-   -- | the expressions contained in a given program using optE.
 
-   optP :: Prog -> Prog
+-- | #2. Define a Haskell function optP :: Prog -> Prog that optimizes all of
+-- | the expressions contained in a given program using optE.
+
+--   >>> optP [Define "func1" ["x","y","z"] [Pen Up,Pen Down]]
+--   [Define "func1" ["x","y","z"] [Pen Up,Pen Down]]
+--
+--   >>> optP [Define "func2" ["x","y","z"] [Pen Up,Move (Add (Num 4) (Num 6)) (Var "y"),Pen Down]]
+--   [Define "func2" ["x","y","z"] [Pen Up,Move (Num 10) (Var "y"),Pen Down]]
+--
+--   >>> optP [Define "nix" ["x", "y", "w", "h"] [Call "line" [Var "x", Var "y", Add (Var "x") (Var "w"), Add (Number 1) (Var "h")],Call "line" [Add (Var "x") (Var "w"), Var "y", Var "x", Add (Number 2) (Number 1)]]]
+--   [Define "nix" ["x","y","w","h"] [Call "line" [Var "x",Var "y",Add (Var "x") (Var "w"),Add (Number 1) (Var "h")],Call "line" [Add (Var "x") (Var "w"),Var "y",Var "x",Number 3]]]
+
+optP :: Prog -> Prog
+optP [] = []
+optP (h:t) = case h of
+   Move x y -> Move (optE x) (optE y) :optP t
+   Call f args -> Call f (map optE args) :optP t
+   Define f args prog -> Define f args (optP prog) :optP t
+   otherwise -> h:optP t
