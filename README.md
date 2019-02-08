@@ -32,11 +32,11 @@ The move command moves the position of the pen from one absolute point to anothe
 The support file Render.hs defines types for representing the state of the pen, and provides a library for rendering the output of a MiniMiniLogo program as an SVG image in an HTML5 file.
 
 #### Tasks
-Implement cmd, the semantic function for MiniMiniLogo commands (Cmd). Note that a command updates the state of the pen and possibly draws a line. Therefore, the semantic domain is State -> (State, Maybe Line).
+1. Implement cmd, the semantic function for MiniMiniLogo commands (Cmd). Note that a command updates the state of the pen and possibly draws a line. Therefore, the semantic domain is State -> (State, Maybe Line).
 
-Implement prog, the semantic function for MiniMiniLogo programs (Prog). A program changes the state of the pen and may draw several lines. Therefore, the semantic domain is State -> (State, [Line]).
+2. Implement prog, the semantic function for MiniMiniLogo programs (Prog). A program changes the state of the pen and may draw several lines. Therefore, the semantic domain is State -> (State, [Line]).
 
-After you have implemented prog, you can use the draw function in the template to run a MiniMiniLogo program and render its output to HTML, which you can then load in your browser. To see if your semantics is working correctly, you can compare the result of running draw demo with this image: MiniMiniLogo-Demo.png
+3. After you have implemented prog, you can use the draw function in the template to run a MiniMiniLogo program and render its output to HTML, which you can then load in your browser. To see if your semantics is working correctly, you can compare the result of running draw demo with this image: MiniMiniLogo-Demo.png
 
 #### Extra credit
 Use your creativity to produce a MiniMiniLogo program that draws an amazing picture! I will show off the most amazing pictures (anonymously) in class.
