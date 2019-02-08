@@ -1,6 +1,58 @@
 ### CS381 Homework
 ##### Zachary Horine, Jonathan Rich and Griffin Thenell
 
+### HW4
+
+MiniMiniLogo is a simplified version of the MiniLogo language that you worked with in HW3, which is itself a simplified version of the Logo language for programming simple 2D graphics.
+
+MiniMiniLogo is like MiniLogo, except that it doesn’t have macros, variables, or addition. This leaves only a very simple syntax remaining.
+```haskell
+   int    ::= (any integer)
+   prog   ::= ε | cmd ; prog --sequence of commands
+   mode   ::= down   |   up  -- pen status
+   cmd    ::= pen mode	--change pen mode
+            | move ( int , int )	--move pen to a new position
+```
+The following MiniLogo program (to draw a 2x2 square with its bottom-left corner at the origin) is also a valid MiniMiniLogo program.
+```haskell
+pen up; move (0,0);
+pen down; move (2,0); move (2,2);
+          move (0,2); move (0,0);
+```
+A Haskell implementation of the abstract syntax of MiniMiniLogo is already provided for you in the file MiniMiniLogo.hs. It also provides some functions to generate programs that draw simple shapes.
+
+In this assignment, you will be implementing the semantics of MiniMiniLogo. The meaning of a MiniMiniLogo program is: (1) the change in the state of the pen and (2) a list of lines to draw.
+
+Conceptually, the execution environment for a MiniMiniLogo program consists of two parts:
+
+a canvas rooted at position (0,0) and extending infinitely upward and to the right
+a pen which is always located at a certain absolute point on the canvas, and which can be in one of two states, either up or down
+The move command moves the position of the pen from one absolute point to another. If the pen is down when it moves, it draws a straight line connecting the two points. If the pen is up, it just moves to the new point but does not draw a line. The state of the pen can be changed using the pen command as illustrated in the example program above.
+
+The support file Render.hs defines types for representing the state of the pen, and provides a library for rendering the output of a MiniMiniLogo program as an SVG image in an HTML5 file.
+
+#### Tasks
+Implement cmd, the semantic function for MiniMiniLogo commands (Cmd). Note that a command updates the state of the pen and possibly draws a line. Therefore, the semantic domain is State -> (State, Maybe Line).
+
+Implement prog, the semantic function for MiniMiniLogo programs (Prog). A program changes the state of the pen and may draw several lines. Therefore, the semantic domain is State -> (State, [Line]).
+
+After you have implemented prog, you can use the draw function in the template to run a MiniMiniLogo program and render its output to HTML, which you can then load in your browser. To see if your semantics is working correctly, you can compare the result of running draw demo with this image: MiniMiniLogo-Demo.png
+
+#### Extra credit
+Use your creativity to produce a MiniMiniLogo program that draws an amazing picture! I will show off the most amazing pictures (anonymously) in class.
+
+To get extra credit, you must do two things:
+
+- Define the amazing variable in the template file. This should be the MiniMiniLogo program that generates the amazing picture.
+
+- Submit the .html file produced by running draw amazing. To make things easier for me, first rename this file to reflect your amazing picture. For example, if your amazing picture is the Mona Lisa, name the file MonaLisa.html.
+
+The amount of extra credit awarded will be proportional to the technical impressiveness and/or artistry of the amazing picture.
+
+To make a truly amazing picture, you will probably need to define some helper functions that generate parts of your MiniMiniLogo program, similar to box, nix, and steps in MiniMiniLogo.hs. You are free to define as many of these helper functions as you wish.
+
+In the past, some students have also modified the Render.hs file to make their pictures even more amazing. If you decide to go down the rabbit hole, please also submit your modified Render.hs file so that we can reproduce your amazing picture.
+
 ### HW3
 
 MiniLogo is toy version of the Logo language for programming simple 2D graphics. A MiniLogo program describes a graphic by a sequence of move commands that move a pen from one position to another on a Cartesian plane, drawing lines as it goes. For example, here is a MiniLogo program that draws a 2x2 square with its bottom-left corner at the origin.
