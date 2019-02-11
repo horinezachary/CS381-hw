@@ -1,4 +1,8 @@
-module HW3 where
+-- | HW4
+-- | Created by: Zachary Horine, Griffin Thenell & Jonathan Rich
+-- | horinez,thenellg,richj
+
+module HW4 where
 
 import MiniMiniLogo
 import Render
@@ -50,8 +54,10 @@ draw p = let (_,ls) = prog p start in toHTML ls
 --   ((Down,(4,5)),Just ((2,3),(4,5)))
 --
 cmd :: Cmd -> State -> (State, Maybe Line)
-cmd = undefined
-
+cmd (Pen a) (_, (x,y)) = ((a,(x,y)),Nothing)
+cmd (Move a b) (c, (x,y)) = case c of
+        Up -> ((c,(a,b)),Nothing)
+        Down -> ((c,(a,b)),Just ((x,y),(a,b)))
 
 -- | Semantic function for Prog.
 --
