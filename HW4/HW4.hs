@@ -67,8 +67,11 @@ cmd (Move a b) (c, (x,y)) = case c of
 --   >>> prog (steps 2 0 0) start
 --   ((Down,(2,2)),[((0,0),(0,1)),((0,1),(1,1)),((1,1),(1,2)),((1,2),(2,2))])
 prog :: Prog -> State -> (State, [Line])
-prog = undefined
-
+prog x y = case x of
+  [] -> (y, [])
+  (l:ls) -> case cmd l y of
+    (a, Nothing) -> prog ls a
+    (a, Just z) -> (\(x, ls) -> (x, z:ls)) (prog ls a)
 
 --
 -- * Extra credit
@@ -76,5 +79,7 @@ prog = undefined
 
 -- | This should be a MiniMiniLogo program that draws an amazing picture.
 --   Add as many helper functions as you want.
+-- Making the asteroid alien
+
 amazing :: Prog
 amazing = undefined
