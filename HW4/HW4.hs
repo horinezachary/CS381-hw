@@ -77,9 +77,25 @@ prog x y = case x of
 -- * Extra credit
 --
 
+-- *Helper function
+-- | Modified version of line definition from homework 3 to make drawing easier
+line:: Int -> Int -> Int -> Int -> Prog
+line x1 y1 x2 y2 = [Pen Up, Move x1 y1, Pen Down, Move x2 y2, Pen Up]
+
+
 -- | This should be a MiniMiniLogo program that draws an amazing picture.
 --   Add as many helper functions as you want.
--- Making the asteroid alien
+
+--   Making the asteroid alien
+
+-- * Actual function
 
 amazing :: Prog
-amazing = undefined
+--amazing = undefined
+-- Would have used steps instead but steps increment by 1 not 2
+amazing = line 2 4 2 10 ++ line 2 10 4 10 ++ line 4 10 4 12 ++ line 4 12 6 12 ++ line 6 12 6 14 ++ line 6 14 8 14 ++ line 8 14 8 18 ++ line 8 18 6 18 ++ line 6 18 6 12 
+          ++ line 6 12 10 16 ++ line 10 16 10 14 ++ line 10 15 16 14 ++ line 16 14 16 16 ++ line 16 16 20 16 ++ line 20 16 20 18 ++ line 20 18 18 18 ++ line 18 18 18 14
+          ++ line 18 14 20 14 ++ line 20 14 20 12 ++ line 20 12 22 12 ++ line 22 12 22 10 ++ line 22 10 24 10 ++ line 24 10 24 4 ++ line 24 4 22 4 ++ line 22 4 22 8
+          ++ line 22 8 20 8 ++ line 20 8 20 4 ++ line 20 4 14 4 ++ line 14 4 14 2 ++ line 14 2 18 2 ++ line 18 2 18 6 ++ line 18 6 8 6 ++ line 8 6 8 2 ++ line 8 2 12 2
+          ++ line 12 2 12 4 ++ line 12 4 6 4 ++ line 6 4 6 8 ++ line 6 8 4 8 ++ line 4 8 4 4 ++ line 4 4 2 4
+          ++ box 16 10 ++ box 8 10
