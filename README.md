@@ -1,5 +1,52 @@
 ### CS381 Homework
 ##### Zachary Horine, Jonathan Rich and Griffin Thenell
+### HW5
+
+#### Description
+The [Karel language](https://en.wikipedia.org/wiki/Karel_(programming_language)) is a simple imperative programming language for directing an on-screen robot. The robot can move around a grid, pick up and place “beepers”, and test aspects of its environment to determine what to do next. The syntax of the language is based on [Pascal](https://en.wikipedia.org/wiki/Pascal_(programming_language)). You can read the [documentation for an open source implementation of Karel](http://karel.sourceforge.net/doc/html_mono/karel.html), if you’re interested.
+
+In this assignment, you’ll be implementing an interpreter for a slightly modified version of Karel. This version is feature-complete with the real Karel, but the syntax has been updated to be a bit more concise and [orthogonal](https://en.wikipedia.org/wiki/Orthogonality#Computer_science).
+
+A detailed description of the Karel language is provided at the link below. You should read this page, and the provided support files thoroughly.
+
+[Karel Language Description – READ THIS!](http://web.engr.oregonstate.edu/~walkiner/teaching/cs381-wi19/hw/karel.html)
+
+**Note that you should only change the template file, KarelSemantics.hs, since this is the only file you will submit. If you change the supporting files, we will not be able to run your code!
+
+The support code is well documented, so you should start by reading the code and trying out the functions in GHCi. If you have any questions about this code, please post them to Piazza. Here is a brief overview:
+
+**KarelSyntax.hs:** Defines the abstract syntax of Karel.
+
+**KarelState.hs:** Karel’s program state is rather complicated compared to the other languages we’ve defined. This file defines types for representing this state and also several helper functions that perform all of the basic operations you will need to write the semantics.
+
+**KarelExamples.hs:** Provides some simple worlds and Karel programs to use in testing.
+
+**KarelTests.hs:** A test suite for evaluating your semantics, and for helping you understand exactly how it should behave.
+
+**KarelSemantics.hs:** The template you will be completing. The types of the required functions are provided, along with a couple example cases to get you started.
+
+#### Tasks
+The overall task is to define an interpreter for Karel. An interpreter in Haskell corresponds very closely to a denotational semantics. Aside from some theoretical differences that we briefly discussed in class, another difference is that when writing an interpreter we care about pragmatic issues like providing useful error messages.
+
+I have broken this large task down into several smaller tasks, ordered roughly by difficulty. Hopefully this helps you get started and make progress.
+
+1. Define the valuation functions for Test. A test is essentially a query over the state of the world and the state of the robot, which can either be true or false. Therefore, the semantic domain is: `World -> Robot -> Bool`.
+
+2. Define the valuation function for the first five constructs of Stmt (two of these are provided already). These statements manipulate the state of the world and/or robot. The ultimate result of evaluating a statement is a value of type Result. This is one of  
+     **(1)** an OK value that contains the updated state of the world and robot  
+     **(2)** a Done value that should only be produced by the Shutdown statement  
+        **-OR-**  
+     **(3)** an Error value that contains an error message.  
+     **Note:** to get the tests to pass, you’ll have to reverse engineer the error messages by reading the doctests.
+
+3. Extend the stmt evaluation function to handle blocks. Once you get to this point, you should be able to pass the first section of tests in KarelTests.hs.
+
+4. Extend the stmt function to handle conditional statements (If). Now you can hopefully pass the conditional tests.
+
+5. Extend the stmt function to handle macro calls. The lookup function in the Haskell Prelude is very handy for this! Now you can hopefully pass the macro tests.
+
+6. Finally, extend the stmt function to handle the looping constructs. Now you should be able to pass all of the tests!
+
 
 ### HW4
 
