@@ -1,3 +1,7 @@
+-- | HW5
+-- | Created by: Griffin Thenell, Zach Horine & Jonathan Rich
+-- | horinez,thenellg,richj
+
 module KarelSemantics where
 
 import Prelude hiding (Either(..))
@@ -9,7 +13,11 @@ import KarelState
 
 -- | Valuation function for Test.
 test :: Test -> World -> Robot -> Bool
-test = undefined
+test (Not a) b c     = not (test a b c)
+test (Facing d) _ c = d == getFacing c
+test (Clear e) b c  = isClear (relativePos e c) b
+test (Beeper) b c    = hasBeeper (getPos c) b
+test (Empty) _ c     = isEmpty c
 
 -- | Valuation function for Stmt.
 stmt :: Stmt -> Defs -> World -> Robot -> Result
