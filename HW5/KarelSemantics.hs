@@ -35,22 +35,26 @@ stmt PutBeeper d w r        = if isEmpty r
 stmt (Turn dir) d w r       = OK w (setFacing (cardTurn dir (getFacing r)) r)
 stmt (Call m) d w r         = case lookup m d of
                                  (Just a) -> stmt a d w r
-                                 Nothing -> Error ("Undefined macro: " ++ m)
+                                 _ -> Error ("Undefined macro: " ++ m)
 stmt (Iterate 0 s) d w r    = OK w r
-stmt (Iterate i s) d w r    = case stmt s d w r of
+stmt (Iterate i s) d w r    = if i > 0
+                                then case stmt s d w r of
                                  OK retW retR -> stmt (Iterate (i-1) s) d retW retR
+                                 Done retR -> Done retR
                                  Error e -> Error e
 stmt (If q s1 s2) d w r     = if test q w r
                                  then stmt s1 d w r
                                  else stmt s2 d w r
 stmt (While q s) d w r      = if test q w r
-                                 then OK w r
-                                 else case stmt s d w r of
+                                 then case stmt s d w r of
                                     OK retW retR -> stmt (While q s) d retW retR
+                                    Done retR -> Done retR
                                     Error e -> Error e
-stmt (Block []) d w r       = OK w r
+                                 else OK w r
+stmt (Block []) _ w r       = OK w r
 stmt (Block (s:st)) d w r   = case stmt s d w r of
                                  OK retW retR -> stmt (Block st) d w r
+                                 Done retR -> Done retR
                                  Error e -> Error e
 -- stmt _ _ _ _ = undefined
 
