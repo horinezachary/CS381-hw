@@ -32,8 +32,10 @@ stmt PickBeeper _ w r       = let p = getPos r
 stmt PutBeeper d w r        = if isEmpty r
                                  then Error ("No beeper to put.")
                                  else OK (incBeeper (getPos r) w) (decBag r)
-stmt (Turn dir) d w r         = OK w (setFacing (cardTurn dir (getFacing r)) r)
-stmt (Call m) d w r         = undefined
+stmt (Turn dir) d w r       = OK w (setFacing (cardTurn dir (getFacing r)) r)
+stmt (Call m) d w r         = case lookup m d of
+                                   (Just a) -> stmt a d w r
+                                            -> Error ("Undefined macro: " ++ m)
 stmt (Iterate 0 s) d w r    = OK w r
 stmt (Iterate i s) d w r    = case stmt s d w r of
                                  OK retW retR -> stmt (Iterate (i-1) s) d retW retR
