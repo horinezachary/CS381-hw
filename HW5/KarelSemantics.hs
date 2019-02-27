@@ -23,7 +23,7 @@ test (Empty) _ c     = isEmpty c
 stmt :: Stmt -> Defs -> World -> Robot -> Result
 stmt Shutdown _ _ r     = Done r
 stmt Move d w r             = if test (Clear Front) w r
-                                 then OK w (setPos (relativePos Front r))
+                                 then OK w (setPos (relativePos Front r) r)
                                  else Error ("Blocked at:" ++ show (relativePos Front r))
 stmt PickBeeper _ w r       = let p = getPos r
                               in if hasBeeper p w
@@ -34,8 +34,8 @@ stmt PutBeeper d w r        = if isEmpty r
                                  else OK (incBeeper (getPos r) w) (decBag r)
 stmt (Turn dir) d w r       = OK w (setFacing (cardTurn dir (getFacing r)) r)
 stmt (Call m) d w r         = case lookup m d of
-                                   (Just a) -> stmt a d w r
-                                            -> Error ("Undefined macro: " ++ m)
+                                 (Just a) -> stmt a d w r
+                                 Nothing -> Error ("Undefined macro: " ++ show m)
 stmt (Iterate 0 s) d w r    = OK w r
 stmt (Iterate i s) d w r    = case stmt s d w r of
                                  OK retW retR -> stmt (Iterate (i-1) s) d retW retR
@@ -52,7 +52,7 @@ stmt (Block []) d w r       = OK w r
 stmt (Block (s:st)) d w r   = case stmt s d w r of
                                  OK retW retR -> stmt (Block st) d w r
                                  Error e -> Error e
-stmt _ _ _ _ = undefined
+-- stmt _ _ _ _ = undefined
 
 -- | Run a Karel program.
 prog :: Prog -> World -> Robot -> Result
