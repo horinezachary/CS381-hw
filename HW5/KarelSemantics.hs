@@ -24,7 +24,7 @@ stmt :: Stmt -> Defs -> World -> Robot -> Result
 stmt Shutdown _ _ r     = Done r
 stmt Move d w r             = if test (Clear Front) w r
                                  then OK w (setPos (relativePos Front r) r)
-                                 else Error ("Blocked at:" ++ show (relativePos Front r))
+                                 else Error ("Blocked at: " ++ show (relativePos Front r))
 stmt PickBeeper _ w r       = let p = getPos r
                               in if hasBeeper p w
                                  then OK (decBeeper p w) (incBag r)
@@ -35,7 +35,7 @@ stmt PutBeeper d w r        = if isEmpty r
 stmt (Turn dir) d w r       = OK w (setFacing (cardTurn dir (getFacing r)) r)
 stmt (Call m) d w r         = case lookup m d of
                                  (Just a) -> stmt a d w r
-                                 Nothing -> Error ("Undefined macro: " ++ show m)
+                                 Nothing -> Error ("Undefined macro: " ++ m)
 stmt (Iterate 0 s) d w r    = OK w r
 stmt (Iterate i s) d w r    = case stmt s d w r of
                                  OK retW retR -> stmt (Iterate (i-1) s) d retW retR
