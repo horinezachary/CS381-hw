@@ -32,8 +32,8 @@ stmt PickBeeper _ w r       = let p = getPos r
 stmt PutBeeper d w r        = if isEmpty r
                                  then Error ("No beeper to put.")
                                  else OK (incBeeper (getPos r) w) (decBag r)
-stmt (Call m) d w r         =
 stmt (Turn dir) d w r         = OK w (setFacing (cardTurn dir (getFacing r)) r)
+stmt (Call m) d w r         = undefined
 stmt (Iterate 0 s) d w r    = OK w r
 stmt (Iterate i s) d w r    = case stmt s d w r of
                                  OK retW retR -> stmt (Iterate (i-1) s) d retW retR
@@ -47,7 +47,9 @@ stmt (While q s) d w r      = if test q w r
                                     OK retW retR -> stmt (While q s) d retW retR
                                     Error e -> Error e
 stmt (Block []) d w r       = OK w r
-stmt (Block (s:st)) d w r   =
+stmt (Block (s:st)) d w r   = case stmt s d w r of
+                                 OK retW retR -> stmt (Block st) d w r
+                                 Error e -> Error e
 stmt _ _ _ _ = undefined
 
 -- | Run a Karel program.
