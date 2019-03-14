@@ -1,6 +1,177 @@
 ### CS381 Homework
 ##### Zachary Horine, Jonathan Rich and Griffin Thenell
-### HW5
+
+### HW6
+
+### Description
+Part 1. Family relations
+In this part, you will define several Prolog predicates that describe family relationships. Your building blocks will be four basic predicates: female/1, male/1, married/2, and parent/2. The provided template uses these basic predicates to encode the following family tree, which you’ll use for testing your own definitions.
+
+Simpson's Family Tree
+
+For each predicate, I have provided some example queries and the unifiers (solutions) that should be produced, or false if no unifier exists. It is not important what order the unifiers are produced in, and it is OK if a unifier is produced more than once. However, for all queries, all valid unifiers should eventually be produced, no invalid unifiers should be produced, and the query should not induce an infinite loop.
+
+Define a predicate child/2 that inverts the parent relationship.
+
+?- child(marge,X).
+X = clancy ;
+X = jackie .
+
+?- child(X,marge).
+X = bart ;
+X = lisa ;
+X = maggie .
+Define two predicates isMother/1 and isFather/1.
+
+?- isMother(selma).
+true .
+
+?- isMother(patty).
+false .
+
+?- isFather(X).
+X = abe ;
+X = clancy ;
+X = homer .
+Define a predicate grandparent/2.
+
+?- grandparent(abe,X).
+X = bart ;
+X = lisa ;
+X = maggie .
+
+?- grandparent(X,ling).
+X = clancy ;
+X = jackie .
+Define a predicate sibling/2. Siblings share at least one parent.
+
+?- sibling(homer,X).
+X = herb .
+
+?- sibling(X,lisa).
+X = bart ;
+X = maggie .
+Define two predicates brother/2 and sister/2.
+
+?- sister(lisa,X).
+X = bart ;
+X = maggie .
+
+?- sister(X,lisa).
+X = maggie .
+
+?- brother(bart,X).
+X = lisa ;
+X = maggie .
+
+?- brother(X,bart).
+false.
+Define a predicate siblingInLaw/2. A sibling-in-law is either married to a sibling or the sibling of a spouse.
+
+?- siblingInLaw(selma,X).
+X = homer .
+
+?- siblingInLaw(marge,X).
+X = herb .
+
+?- siblingInLaw(X,homer).
+X = patty ;
+X = selma .
+Define two predicates aunt/2 and uncle/2. Your definitions of these predicates should include aunts and uncles by marriage.
+
+?- aunt(patty,X).
+X = bart ;
+X = lisa ;
+X = maggie ;
+X = ling .
+
+?- uncle(X,ling).
+X = homer .
+Define the predicate cousin/2.
+
+?- cousin(maggie,X).
+X = ling .
+
+?- cousin(X,ling).
+X = bart ;
+X = lisa ;
+X = maggie .
+Define the predicate ancestor/2.
+
+?- ancestor(abe,X).
+X = herb ;
+X = homer ;
+X = bart ;
+X = lisa ;
+X = maggie .
+
+?- ancestor(X,lisa).
+X = homer ;
+X = marge ;
+X = abe ;
+X = mona ;
+X = clancy ;
+X = jackie .
+Extra Credit: Define the predicate related/2. This predicate should be true for any two people connected by a family tree, no matter how distantly. Therefore, a query such as related(herb,X) should enumerate every other person in the tree.
+
+The challenge in this problem is structuring your predicate in a way that enumerates all members of the tree and doesn’t infinitely loop. You may want to use a helper predicate.
+
+(Note: my solution does not infinitely loop, but also never stops finding solutions. If someone can produce a better implementation, bonus bonus points!)
+
+Part 2. Language Implementation
+In this part, you will define two predicates to implement a simple stack-based language. The syntax of the language is given below.
+
+num	::=	(any number literal)	
+str	::=	(any string literal)	
+bool	::=	t   |   f	boolean literals
+prog	::=	cmd∗	sequence of commands
+cmd	::=	num   |   str   |   bool	push a literal onto the stack
+|	add   |   lte	number addition/comparison
+|	if(prog,prog)	conditional branching
+The language is almost identical to the stack language we implemented in Haskell earlier in the term, in StackLang.hs. A program is a list of commands, and each command has an effect on implicit program stack:
+
+A literal number (e.g. 3), string (e.g. "Hi there!"), or boolean (i.e. t or f) is a command that simply pushes the corresponding value onto the stack.
+The add command pops two numbers off the stack and pushes their sum.
+The lte command pops two numbers off the stack and pushes t if the first number is the less than or equal to the second, otherwise it pushes f.
+An if(P1,P2) command pops a boolean value off the stack and executes either P1 if the value is t or P2 if the value is f.
+Note that you do not need to implement the syntax of this language directly, nor do you need to explicitly check whether a command, program, or stack is valid. The important thing is that your definitions are correct given well-formed inputs. Consider the behavior in other cases undefined.
+
+You should use Prolog lists to represent programs (i.e. list of commands) and stacks (i.e. list of number, string, and boolean values).
+
+Define the predicate cmd/3, which describes the effect of a command on the stack. That is, the predicate cmd(C,S1,S2) means that executing command C with stack S1 produces stack S2.
+
+?- cmd("hello",[4],S).
+S = ["hello", 4].
+
+?- cmd(4,S,[4,"goodbye"]).
+S = ["goodbye"].
+
+?- cmd(add,[2,3,4],S).
+S = [5, 4].
+
+?- cmd(lte,[2,3,4],S).
+S = [t, 4].
+
+?- cmd(lte,[5,3,t],S).
+S = [f, t].
+Note that I have not provided a test case for if yet since it depends on the prog/3 predicate below.
+
+Define the predicate prog/3, which describes the effect of a program on the stack. That is, the predicate prog(P,S1,S2) means that executing program P with stack S1 produces stack S2.
+
+?- prog([3,4,add],[],S).
+S = [7] .
+
+?- prog([3,4,add,6,lte,9],[],S).
+S = [9, t] .
+
+?- prog([if(["foo"],[3]),4],[t,5],S).
+S = [4, "foo", 5] .
+
+?- prog([2,lte,if(["foo"],[3]),4],[1],S).
+S = [4, 3] .
+
+
+### HW 5
 
 #### Description
 The [Karel language](https://en.wikipedia.org/wiki/Karel_(programming_language)) is a simple imperative programming language for directing an on-screen robot. The robot can move around a grid, pick up and place “beepers”, and test aspects of its environment to determine what to do next. The syntax of the language is based on [Pascal](https://en.wikipedia.org/wiki/Pascal_(programming_language)). You can read the [documentation for an open source implementation of Karel](http://karel.sourceforge.net/doc/html_mono/karel.html), if you’re interested.
