@@ -90,9 +90,6 @@ ancestor(Ancestor, X) :- grandparent(Ancestor, X).
 ancestor(Ancestor, X) :- parent(Ancestor, X).
 
 % Extra credit: Define the predicate `related/2`.
-related(Related, X) :- sibling(Related, X); siblingInLaw(Related, X).
-related(Related, X) :- child(Related, Parent),!,related(Parent,X).
-related(Related, X) :- child(Related, Child),!,related(Child,X).
 
 
 %%
