@@ -88,8 +88,15 @@ ancestor(Ancestor, X) :- grandparent(Ancestor, X).
 ancestor(Ancestor, X) :- parent(Ancestor, X).
 
 % Extra credit: Define the predicate `related/2`.
-
-
+related(X,Y) :- ancestor(X,Y).
+related(X,Y) :- ancestor(Y,X).
+related(X,Y) :- aunt(X,Y).
+related(X,Y) :- aunt(Y,X).
+related(X,Y) :- uncle(X,Y).
+related(X,Y) :- uncle(Y,X).
+related(X,Y) :- cousin(X,Y).
+related(X,Y) :- siblingInLaw(X,Y).
+related(X,Y) :- sibling(X,Y).
 
 %%
 % Part 2. Language implementation (see course web page)
