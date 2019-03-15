@@ -65,7 +65,7 @@ grandparent(Grandparent,Grandchild) :- parent(Parent,Grandchild), parent(Grandpa
 
 
 % 4. Define a predicate `sibling/2`. Siblings share at least one parent.
-sibling(Sibone,Sibtwo) :- 
+sibling(Sibone,Sibtwo) :-
 
 % 5. Define two predicates `brother/2` and `sister/2`.
 %brother(X,Y) :- male(X), sibling(X,Y).
@@ -84,7 +84,8 @@ sibling(Sibone,Sibtwo) :-
 
 
 % 9. Define the predicate `ancestor/2`.
-
+ancestor(Ancestor, X) :- grandparent(Ancestor, X).
+ancestor(Ancestor, X) :- parent(Ancestor, X).
 
 % Extra credit: Define the predicate `related/2`.
 
@@ -93,4 +94,3 @@ sibling(Sibone,Sibtwo) :-
 %%
 % Part 2. Language implementation (see course web page)
 %%
-
