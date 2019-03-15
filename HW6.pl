@@ -50,23 +50,31 @@ parent(selma,ling).
 %%
 
 % 1. Define a predicate `child/2` that inverts the parent relationship.
-
+child(Child,Parent) :- parent(Parent,Child).
 
 % 2. Define two predicates `isMother/1` and `isFather/1`.
+isMother(Parent) :- female(Parent) , not(\+ child(_,Parent)).
+isFather(Parent) :- male(Parent), not(\+ child(_,Parent)).
 
 
 % 3. Define a predicate `grandparent/2`.
+% grandpartnt(Grandparent,Grandchild)
+% parten(parent,child)
+%                   parent( abe,(homer,bart))
+grandparent(Grandparent,Grandchild) :- parent(Parent,Grandchild), parent(Grandparent,Parent).
 
 
 % 4. Define a predicate `sibling/2`. Siblings share at least one parent.
-
+sibling(Sibone,Sibtwo) :- 
 
 % 5. Define two predicates `brother/2` and `sister/2`.
+%brother(X,Y) :- male(X), sibling(X,Y).
+%sister(X,Y) :- female(X), sibling(X,Y).
 
 
 % 6. Define a predicate `siblingInLaw/2`. A sibling-in-law is either married to
 %    a sibling or the sibling of a spouse.
-
+%siblingInLaw(X,Y) :- sibling(X,Sib), married(Sib,Y), married(X,Spouse), sibling(Spouse,Y).
 
 % 7. Define two predicates `aunt/2` and `uncle/2`. Your definitions of these
 %    predicates should include aunts and uncles by marriage.
