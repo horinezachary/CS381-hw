@@ -86,8 +86,6 @@ aunt(X,Y) :- female(X),((sibling(X,Sib),child(Y,Sib));(siblingInLaw(X,Sibinlaw),
 cousin(X,Y) :- parent(Parent,X), sibling(Parent,Sibling), child(Y,Sibling).
 
 % 9. Define the predicate `ancestor/2`.
-ancestor(Ancestor, X) :- grandparent(Ancestor, X).
-ancestor(Ancestor, X) :- parent(Ancestor, X).
 
 % Extra credit: Define the predicate `related/2`.
 
