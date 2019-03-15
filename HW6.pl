@@ -94,3 +94,13 @@ ancestor(Ancestor, X) :- parent(Ancestor, X).
 %%
 % Part 2. Language implementation (see course web page)
 %%
+
+%%
+% num	::=	(any number literal)
+% str	::=	(any string literal)
+% bool	::=	t   |   f	               boolean literals
+% prog	::=	cmd∗	                     sequence of commands
+% cmd	   ::=	num   |   str   |   bool	push a literal onto the stack
+%          |	add   |   lte	            number addition/comparison
+%          |	if(prog,prog)	            conditional branching
+%%
