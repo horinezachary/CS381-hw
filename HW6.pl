@@ -129,7 +129,7 @@ cmd(lte,[NumA,NumB|S1],S2) :- S2 = [t|S1], NumA =< NumB.
 cmd(lte,[_,_|S1],S2) :- S2 = [t|S1].
 
 cmd(if(Prog1,_),[t|S1],S2) :- prog(Prog1,S1,S2).
-cmd(if(_,Prog2),[t|S1],S2) :- prog(Prog2,S1,S2).
+cmd(if(_,Prog2),[f|S1],S2) :- prog(Prog2,S1,S2).
 
 %%
 % Define the predicate prog/3, which describes the effect of a program on the stack.
