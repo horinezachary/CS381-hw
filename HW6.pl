@@ -1,3 +1,9 @@
+%%
+% HW6
+% Created by: Zachary Horine, Griffin Thenell & Jonathan Rich
+% horinez,thenellg,richj
+%%
+
 % Here are a bunch of facts describing the Simpson's family tree.
 % Don't change them!
 
@@ -113,3 +119,32 @@ related(X,Y) :- sibling(X,Y).
 %          |	add   |   lte	            number addition/comparison
 %          |	if(prog,prog)	            conditional branching
 %%
+
+bool(t). bool(f).
+
+%%
+% 1. Define the predicate cmd/3, which describes the effect of a command on the stack.
+% That is, the predicate cmd(C,S1,S2) means that executing command C with stack S1 
+% produces stack S2.
+%%
+
+cmd(C,S1,S2) :- number(C), S2 = [C|S1].
+cmd(C,S1,S2) :- string(C), S2 = [C|S1].
+cmd(C,S1,S2) :- bool(C), S2 = [C|S1].
+
+cmd(add,[NumA,NumB|S1],S2) :- S2 = [Result|S1], Result is NumA + NumB.
+
+cmd(lte,[NumA,NumB|S1],S2) :- S2 = [t|S1], NumA =< NumB.
+cmd(lte,[_,_|S1],S2) :- S2 = [f|S1].
+
+cmd(if(Prog1,_),[t|S1],S2) :- prog(Prog1,S1,S2).
+cmd(if(_,Prog2),[f|S1],S2) :- prog(Prog2,S1,S2).
+
+%%
+% Define the predicate prog/3, which describes the effect of a program on the stack.
+% That is, the predicate prog(P,S1,S2) means that executing program P with stack S1
+% produces stack S2.
+%%
+
+prog([CmdA],S1,S2)      :- cmd(CmdA,S1,S2).
+prog([CmdA|CmdB],S1,S3) :- cmd(CmdA,S1,S2), prog(CmdB,S2,S3).
